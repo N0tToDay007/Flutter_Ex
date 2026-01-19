@@ -20,7 +20,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _next() {
     if (_page < 2) _ctrl.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease);
-    else Navigator.pushReplacementNamed(context, '/add');
+    else Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
   }
 
   @override
@@ -46,7 +46,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // wrap skip with animated button
-                  GestureDetector(onTap: () => Navigator.pushReplacementNamed(context, '/add'), child: const Text('ข้าม')),
+                  GestureDetector(onTap: () => Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false), child: const Text('ข้าม')),
                   Row(
                     children: List.generate(3, (i) => Container(margin: const EdgeInsets.symmetric(horizontal: 4), width: 10, height: 10, decoration: BoxDecoration(color: i == _page ? Colors.black : Colors.grey, shape: BoxShape.circle))),
                   ),

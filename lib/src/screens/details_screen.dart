@@ -51,7 +51,8 @@ class DetailsScreen extends StatelessWidget {
                             } else {
                               // delete
                               model.removeById(item.id);
-                              Navigator.pushReplacementNamed(context, '/home');
+                              // clear the navigation stack and go to home
+                              Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                             }
                           },
                           child: Container(
