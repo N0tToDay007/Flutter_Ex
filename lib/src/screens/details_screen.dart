@@ -10,10 +10,11 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments;
-    final id = args is String ? args : null;
-  final model = AppStateProvider.of(context);
+    final args = ModalRoute.of(context)?.settings.arguments;
+    final argId = args is String ? args : null;
+    final model = AppStateProvider.of(context);
 
+    final id = argId ?? model.viewingItemId;
     final item = id == null ? null : model.getById(id);
 
     return Scaffold(
@@ -46,13 +47,15 @@ class DetailsScreen extends StatelessWidget {
                           ),
                           onDismissed: (direction) {
                             if (direction == DismissDirection.startToEnd) {
-                              // edit
-                              Navigator.pushReplacementNamed(context, '/add', arguments: item);
+                              // edit: set editing item and switch to Add tab
+                              model.setEditingItem(item.id);
+                              model.goToTab(1);
                             } else {
                               // delete
                               model.removeById(item.id);
-                              // clear the navigation stack and go to home
-                              Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                              // clear viewing selection and go to home tab
+                              model.setViewingItem(null);
+                              model.goToTab(0);
                             }
                           },
                           child: Container(
@@ -81,26 +84,7 @@ class DetailsScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const Padding(
-        padding: EdgeInsets.only(bottom: 0),
-        child: SafeArea(child: SizedBox(height: 64, child: _DetailsBottomHost())),
-      ),
     );
   }
 }
 
-class _DetailsBottomHost extends StatelessWidget {
-  const _DetailsBottomHost({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-  InkWell(onTap: () => Navigator.pushReplacementNamed(context, '/home'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.home), SizedBox(height: 4), Text('Home', style: TextStyle(fontSize: 12))])),
-  InkWell(onTap: () => Navigator.pushReplacementNamed(context, '/add'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.edit), SizedBox(height: 4), Text('Add', style: TextStyle(fontSize: 12))])),
-  InkWell(onTap: () => Navigator.pushReplacementNamed(context, '/details'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.list_alt), SizedBox(height: 4), Text('Details', style: TextStyle(fontSize: 12))])),
-      ],
-    );
-  }
-}

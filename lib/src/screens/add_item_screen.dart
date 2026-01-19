@@ -37,6 +37,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
 
+    final app = AppStateProvider.of(context);
     final name = _nameCtl.text.trim();
     final qty = int.tryParse(_qtyCtl.text.trim()) ?? 1;
     final category = _category!.trim();
@@ -45,15 +46,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
     final id = DateTime.now().millisecondsSinceEpoch.toString();
     if (_editing != null) {
       final updated = _editing!.copyWith(name: name, quantity: qty, category: category, note: note);
-      AppStateProvider.of(context).updateItem(updated);
-      Navigator.pushReplacementNamed(context, '/details', arguments: updated.id);
+      app.updateItem(updated);
+      app.setEditingItem(null);
+      app.setViewingItem(updated.id);
+      app.goToTab(2);
       return;
     }
 
     final item = GroceryItem(id: id, name: name, quantity: qty, category: category, note: note);
-  AppStateProvider.of(context).addItem(item);
-  // After adding, navigate to Details and show the newly created item
-  Navigator.pushReplacementNamed(context, '/details', arguments: id);
+    app.addItem(item);
+    // After adding, switch to Details tab and show the newly created item
+    app.setViewingItem(id);
+    app.goToTab(2);
   }
 
   Widget _cardField({required Widget child}) {
@@ -68,14 +72,18 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Check for edit argument and prefill if present
-    final arg = ModalRoute.of(context)?.settings.arguments;
-    if (arg is GroceryItem && _editing == null) {
-      _editing = arg;
-      _nameCtl.text = _editing!.name;
-      _qtyCtl.text = _editing!.quantity.toString();
-      _category = _editing!.category;
-      _noteCtl.text = _editing!.note;
+    // Check AppState for editing request and prefill if present
+    final app = AppStateProvider.of(context);
+    final editId = app.editingItemId;
+    if (editId != null && _editing == null) {
+      final maybe = app.getById(editId);
+      if (maybe != null) {
+        _editing = maybe;
+        _nameCtl.text = _editing!.name;
+        _qtyCtl.text = _editing!.quantity.toString();
+        _category = _editing!.category;
+        _noteCtl.text = _editing!.note;
+      }
     }
     return Scaffold(
       backgroundColor: mint,
@@ -138,26 +146,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const Padding(
-        padding: EdgeInsets.only(bottom: 0),
-        child: SafeArea(child: SizedBox(height: 64, child: _AddBottomHost())),
-      ),
     );
   }
 }
 
-class _AddBottomHost extends StatelessWidget {
-  const _AddBottomHost({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        InkWell(onTap: () => Navigator.pushNamed(context, '/home'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.home), SizedBox(height: 4), Text('Home', style: TextStyle(fontSize: 12))])),
-  InkWell(onTap: () => Navigator.pushNamed(context, '/add'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.edit), SizedBox(height: 4), Text('Add', style: TextStyle(fontSize: 12))])),
-        InkWell(onTap: () => Navigator.pushNamed(context, '/details'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.list_alt), SizedBox(height: 4), Text('Details', style: TextStyle(fontSize: 12))])),
-      ],
-    );
-  }
-}

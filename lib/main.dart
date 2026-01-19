@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'src/providers/grocery_provider.dart';
-import 'src/screens/home_screen.dart';
+import 'src/screens/main_tabs.dart';
 import 'src/screens/add_item_screen.dart';
 import 'src/screens/details_screen.dart';
 import 'src/screens/onboarding_screen.dart';
@@ -57,7 +57,7 @@ class GroceryApp extends StatelessWidget {
               routes: {
                 // Home is available at '/home' so bottom navigation and other
                 // places can navigate to the main list screen.
-                '/home': (ctx) => const HomeScreen(),
+                '/home': (ctx) => const MainTabs(),
                 '/add': (ctx) => const AddItemScreen(),
                 '/details': (ctx) => const DetailsScreen(),
               },

@@ -6,12 +6,35 @@ import '../models/grocery_item.dart';
 class AppState extends ChangeNotifier {
   final List<GroceryItem> _items = [];
   bool _isDark = false;
+  // Tab and selection helpers for IndexedStack-based navigation
+  int _selectedTab = 0;
+  String? _editingItemId;
+  String? _viewingItemId;
 
   List<GroceryItem> get items => List.unmodifiable(_items);
   bool get isDark => _isDark;
+  int get selectedTab => _selectedTab;
+  String? get editingItemId => _editingItemId;
+  String? get viewingItemId => _viewingItemId;
 
   void toggleDark() {
     _isDark = !_isDark;
+    notifyListeners();
+  }
+
+  // IndexedStack helpers
+  void goToTab(int index) {
+    _selectedTab = index;
+    notifyListeners();
+  }
+
+  void setEditingItem(String? id) {
+    _editingItemId = id;
+    notifyListeners();
+  }
+
+  void setViewingItem(String? id) {
+    _viewingItemId = id;
     notifyListeners();
   }
 

@@ -84,8 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         onDismissed: (direction) {
                           if (direction == DismissDirection.startToEnd) {
-                            // edit
-                            Navigator.pushReplacementNamed(context, '/add', arguments: item);
+                            // edit: set editing item and switch to Add tab
+                            app.setEditingItem(item.id);
+                            app.goToTab(1);
                           } else {
                             // delete
                             app.removeById(item.id);
@@ -103,7 +104,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             index: index,
                             child: const Icon(Icons.drag_handle),
                           ),
-                          onTap: () => Navigator.pushNamed(context, '/details', arguments: item.id),
+                          onTap: () {
+                            app.setViewingItem(item.id);
+                            app.goToTab(2);
+                          },
                         ),
                       );
                     },
@@ -113,27 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: const Padding(
-        padding: EdgeInsets.only(bottom: 0),
-        child: SafeArea(child: SizedBox(height: 64, child: _BottomNavHost())),
-      ),
     );
   }
 }
 
-// Small wrapper to avoid circular import issues; uses local Navigator calls
-class _BottomNavHost extends StatelessWidget {
-  const _BottomNavHost({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-  InkWell(onTap: () => Navigator.pushReplacementNamed(context, '/home'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.home), SizedBox(height: 4), Text('Home', style: TextStyle(fontSize: 12))])),
-  InkWell(onTap: () => Navigator.pushReplacementNamed(context, '/add'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.edit), SizedBox(height: 4), Text('Add', style: TextStyle(fontSize: 12))])),
-  InkWell(onTap: () => Navigator.pushReplacementNamed(context, '/details'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.list_alt), SizedBox(height: 4), Text('Details', style: TextStyle(fontSize: 12))])),
-      ],
-    );
-  }
-}

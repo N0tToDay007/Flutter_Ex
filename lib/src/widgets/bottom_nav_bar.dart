@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
-  const BottomNavBar({Key? key, required this.currentIndex}) : super(key: key);
+  final ValueChanged<int> onTap;
+  const BottomNavBar({Key? key, required this.currentIndex, required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +32,7 @@ class BottomNavBar extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (index == currentIndex) return;
-  if (index == 0) Navigator.pushReplacementNamed(context, '/home');
-  if (index == 1) Navigator.pushReplacementNamed(context, '/add');
-  if (index == 2) Navigator.pushReplacementNamed(context, '/details');
+        onTap(index);
       },
       child: SizedBox(
         width: 120,
