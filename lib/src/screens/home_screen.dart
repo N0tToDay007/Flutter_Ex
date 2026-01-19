@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onDismissed: (direction) {
                           if (direction == DismissDirection.startToEnd) {
                             // edit
-                            Navigator.pushNamed(context, '/add', arguments: item);
+                            Navigator.pushReplacementNamed(context, '/add', arguments: item);
                           } else {
                             // delete
                             app.removeById(item.id);
@@ -130,9 +130,9 @@ class _BottomNavHost extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        InkWell(onTap: () => Navigator.pushNamed(context, '/home'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.home), SizedBox(height: 4), Text('Home', style: TextStyle(fontSize: 12))])),
-        InkWell(onTap: () => Navigator.pushNamed(context, '/add'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.edit), SizedBox(height: 4), Text('Add', style: TextStyle(fontSize: 12))])),
-        InkWell(onTap: () => Navigator.pushNamed(context, '/details'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.list_alt), SizedBox(height: 4), Text('Details', style: TextStyle(fontSize: 12))])),
+  InkWell(onTap: () => Navigator.pushReplacementNamed(context, '/home'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.home), SizedBox(height: 4), Text('Home', style: TextStyle(fontSize: 12))])),
+  InkWell(onTap: () => Navigator.pushReplacementNamed(context, '/add'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.edit), SizedBox(height: 4), Text('Add', style: TextStyle(fontSize: 12))])),
+  InkWell(onTap: () => Navigator.pushReplacementNamed(context, '/details'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.list_alt), SizedBox(height: 4), Text('Details', style: TextStyle(fontSize: 12))])),
       ],
     );
   }

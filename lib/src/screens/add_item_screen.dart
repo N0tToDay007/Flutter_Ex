@@ -46,14 +46,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
     if (_editing != null) {
       final updated = _editing!.copyWith(name: name, quantity: qty, category: category, note: note);
       AppStateProvider.of(context).updateItem(updated);
-      Navigator.pushNamed(context, '/details', arguments: updated.id);
+      Navigator.pushReplacementNamed(context, '/details', arguments: updated.id);
       return;
     }
 
     final item = GroceryItem(id: id, name: name, quantity: qty, category: category, note: note);
-    AppStateProvider.of(context).addItem(item);
-    // After adding, navigate to Details and show the newly created item
-    Navigator.pushNamed(context, '/details', arguments: id);
+  AppStateProvider.of(context).addItem(item);
+  // After adding, navigate to Details and show the newly created item
+  Navigator.pushReplacementNamed(context, '/details', arguments: id);
   }
 
   Widget _cardField({required Widget child}) {

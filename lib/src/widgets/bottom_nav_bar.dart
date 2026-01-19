@@ -31,9 +31,9 @@ class BottomNavBar extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (index == currentIndex) return;
-        if (index == 0) Navigator.pushNamed(context, '/home');
-        if (index == 1) Navigator.pushNamed(context, '/add');
-        if (index == 2) Navigator.pushNamed(context, '/details');
+  if (index == 0) Navigator.pushReplacementNamed(context, '/home');
+  if (index == 1) Navigator.pushReplacementNamed(context, '/add');
+  if (index == 2) Navigator.pushReplacementNamed(context, '/details');
       },
       child: SizedBox(
         width: 120,
