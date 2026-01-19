@@ -1,3 +1,4 @@
+// AI-ASSISTED: Modified by assistant on 2026-01-19
 import 'package:flutter/widgets.dart';
 import '../models/grocery_item.dart';
 

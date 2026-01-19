@@ -1,3 +1,4 @@
+// AI-ASSISTED: Modified by assistant on 2026-01-19
 import 'package:flutter/material.dart';
 
 /// AnimatedScaleButton: wraps a child and provides a tap-scale animation.

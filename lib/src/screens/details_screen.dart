@@ -1,3 +1,4 @@
+// AI-ASSISTED: Modified by assistant on 2026-01-19
 import 'package:flutter/material.dart';
 import '../providers/grocery_provider.dart';
 

@@ -1,3 +1,4 @@
+// AI-ASSISTED: Modified by assistant on 2026-01-19
 class GroceryItem {
   final String id;
   final String name;
