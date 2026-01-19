@@ -155,7 +155,7 @@ class _AddBottomHost extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         InkWell(onTap: () => Navigator.pushNamed(context, '/home'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.home), SizedBox(height: 4), Text('Home', style: TextStyle(fontSize: 12))])),
-        InkWell(onTap: () {}, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.edit), SizedBox(height: 4), Text('Add', style: TextStyle(fontSize: 12))])),
+  InkWell(onTap: () => Navigator.pushNamed(context, '/add'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.edit), SizedBox(height: 4), Text('Add', style: TextStyle(fontSize: 12))])),
         InkWell(onTap: () => Navigator.pushNamed(context, '/details'), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [Icon(Icons.list_alt), SizedBox(height: 4), Text('Details', style: TextStyle(fontSize: 12))])),
       ],
     );
